@@ -1,22 +1,20 @@
 import discord
+from discord.ext import commands
 import os
-from keep_alive import keep_alive
+import asyncio
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.members = True
+bot = commands.Bot(command_prefix="+", intents=intents, help_command=None)
 
-client = discord.Client(intents=intents)
+async def load():
+  for filename in os.listdir('./cogs'):
+    if filename.endswith('.py'):
+      await bot.load_extension(f'cogs.{ filename[:-3] }')
 
-@client.event
-async def on_ready():
-  print('logged in as {0.user}'.format(client))
-  return
+async def main():
+  await load()
+  await bot.start(os.getenv('TOKEN'))
 
 
-@client.event
-async def on_message(message):
-  if message.author == client.user:
-    return
-
-keep_alive()
-client.run(os.getenv('TKN'))
+asyncio.run(main())
