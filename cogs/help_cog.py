@@ -22,11 +22,12 @@ General commands:
   @commands.Cog.listener()
   async def on_ready(self):
     print("Bot is Online")
-    for guild in self.bot.guilds:
-      for channel in guild.text_channels:
-        self.text_channel_text.append(channel)
+    # print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
+    #for guild in self.bot.guilds:
+      #for channel in guild.text_channels:
+        #self.text_channel_text.append(channel)
 
-    await self.send_to_all(self.help_message)
+    #await self.send_to_all(self.help_message) 
 
   async def send_to_all(self, msg):
     for text_channel in self.text_channel_text:
@@ -36,8 +37,6 @@ General commands:
   async def help(self, ctx, *args):
     print('Used help command')
     await ctx.send(self.help_message)
-
-
 
 async def setup(bot):
   await bot.add_cog(help_cog(bot))
